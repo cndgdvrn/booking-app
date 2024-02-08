@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
-
-interface IForm {
+import {api_client} from "../api-client"
+ 
+export interface IRegisterForm {
   firstName: string;
   lastName: string;
   email: string;
@@ -14,10 +15,11 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm<IForm>();
+  } = useForm<IRegisterForm>();
 
-  const onSubmit = (data: IForm) => {
-    console.log(data);
+  const onSubmit = async(data: IRegisterForm) => {
+    const dt = await api_client.register(data)
+    console.log(dt);
   };
 
   return (
