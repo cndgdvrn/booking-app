@@ -12,6 +12,7 @@ export const error_handler = (
       success: false,
       message: err.message,
       name: err.name,
+      errorCode : err.getErrorCode
     });
   }
 
