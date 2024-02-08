@@ -52,8 +52,8 @@ const loginSchema = Joi.object({
     "string.empty": "Email field is required",
     "string.email": "Invalid email format",
   }),
-  password: Joi.string().min(6).max(30).required().messages({
-    "string.empy": "Password field is required",
+  password: Joi.string().required().messages({
+    "string.empty": "Password field is required",
   }),
 });
 

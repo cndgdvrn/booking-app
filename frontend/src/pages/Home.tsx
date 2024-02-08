@@ -1,13 +1,6 @@
-import Layout from "../layout/Layout";
 
 const Home = () => {
-  return (
-        <Layout>
-          <div className="px-60">
-            Burası homepage
-          </div>
-        </Layout>
-  );
+  return <div className="px-60">Burası homepage</div>;
 };
 
 export default Home;

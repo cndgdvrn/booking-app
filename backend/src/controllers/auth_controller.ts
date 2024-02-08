@@ -1,16 +1,13 @@
+import bcrypt from "bcryptjs";
 import { Request, Response, NextFunction } from "express";
 import User from "../models/user";
 import API_ERROR from "../utils/api_error";
-import { registerSchema } from "../validations/validationSchemas";
+import { loginSchema, registerSchema } from "../validations/validationSchemas";
 import API_RESPONSE from "../utils/api_response";
 import { IUser } from "../types/types";
 import jwt from "jsonwebtoken";
 
-export const register = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+export const register = async (req: Request, res: Response, next: NextFunction) => {
   const { error } = registerSchema.validate(req.body);
 
   if (error) {
@@ -23,14 +20,10 @@ export const register = async (
   }
 
   const user = new User(req.body);
-  const token = jwt.sign(
-    { userId: user.id },
-    process.env.JWT_SECRET_KEY as string,
-    {
-      expiresIn: "1d",
-      algorithm: "HS256",
-    }
-  );
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY as string, {
+    expiresIn: "1d",
+    algorithm: "HS256",
+  });
 
   res.cookie("auth_token", token, {
     httpOnly: true,
@@ -39,13 +32,34 @@ export const register = async (
   });
 
   await user.save();
-  return new API_RESPONSE<Partial<IUser>>(
-    user,
-    "Registiration successfull"
-  ).created(res);
+  return new API_RESPONSE<Partial<IUser>>(user, "Registiration successfull").created(res);
 };
 
-
 export const login = async (req: Request, res: Response, next: NextFunction) => {
-  
-}
+  await loginSchema.validateAsync(req.body);
+
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new API_ERROR("Invalid credentials", 400);
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+
+  if (!isMatch) {
+    throw new API_ERROR("Invalid credentials", 400);
+  }
+
+  const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY as string, {
+    expiresIn: "1d",
+    algorithm: "HS256",
+  });
+
+  res.cookie("auth_token", token, {
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+    secure: process.env.NODE_ENV === "production" ? true : false,
+  });
+  return new API_RESPONSE<Partial<IUser>>(user, "Login successfull").created(res);
+};
