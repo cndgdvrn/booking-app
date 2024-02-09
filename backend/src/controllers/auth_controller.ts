@@ -2,10 +2,10 @@ import bcrypt from "bcryptjs";
 import { Request, Response, NextFunction } from "express";
 import User from "../models/user";
 import API_ERROR from "../utils/api_error";
-import { loginSchema, registerSchema } from "../validations/validationSchemas";
 import API_RESPONSE from "../utils/api_response";
-import { IUser } from "../types/types";
+import {IUser } from "../types/types";
 import jwt from "jsonwebtoken";
+import { loginSchema, registerSchema } from "../libs/joiSchemas";
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   const { error } = registerSchema.validate(req.body);
@@ -62,4 +62,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     secure: process.env.NODE_ENV === "production" ? true : false,
   });
   return new API_RESPONSE<Partial<IUser>>(user, "Login successfull").created(res);
+};
+
+export const validateToken = async (req: Request, res: Response, next: NextFunction) => {
+  return new API_RESPONSE({ userId: req.userId }, "Token is valid").created(res);
 };

@@ -2,7 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  /* overflow-y: hidden; */
+}
 
-html{
-    /* overflow-y: hidden; */
+.Toastify__toast--success {
+  background: #4bb543; /* Yeşil renk */
+  color: white;
+}
+
+.Toastify__toast--error {
+  background: #d8000c; /* Kırmızı renk */
+  color: white;
 }

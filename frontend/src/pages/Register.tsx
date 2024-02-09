@@ -1,15 +1,25 @@
 import { useForm } from "react-hook-form";
-import {api_client} from "../api-client"
- 
-export interface IRegisterForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { api_client } from "../api-client";
+import { useMutation } from "react-query";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { delay } from "../helpers/delay";
+import { AxiosError } from "axios";
+import { IRegisterResponse, IRegisterForm } from "../shared-types";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const mutation = useMutation(api_client.register, {
+    onSuccess: async (data: IRegisterResponse) => {
+      toast.success(data.message);
+      await delay(1000);
+      navigate("/");
+    },
+    onError: (error: AxiosError<IRegisterResponse>) => {
+      toast.error(error.response?.data.message);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -17,9 +27,8 @@ const Register = () => {
     watch,
   } = useForm<IRegisterForm>();
 
-  const onSubmit = async(data: IRegisterForm) => {
-    const dt = await api_client.register(data)
-    console.log(dt);
+  const onSubmit = async (data: IRegisterForm) => {
+    mutation.mutate(data);
   };
 
   return (
