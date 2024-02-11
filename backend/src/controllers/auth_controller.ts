@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express";
 import User from "../models/user";
 import API_ERROR from "../utils/api_error";
 import API_RESPONSE from "../utils/api_response";
-import {IUser } from "../types/types";
+import { IUser } from "../types/types";
 import jwt from "jsonwebtoken";
 import { loginSchema, registerSchema } from "../libs/joiSchemas";
 
@@ -58,12 +58,19 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
   res.cookie("auth_token", token, {
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
     secure: process.env.NODE_ENV === "production" ? true : false,
   });
-  return new API_RESPONSE<Partial<IUser>>(user, "Login successfull").created(res);
+  return new API_RESPONSE<Partial<IUser>>(user, "Login successfull").success(res);
+};
+
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+  res.cookie("auth_token", {
+    expires: new Date(0),
+  });
+  return new API_RESPONSE(undefined, "Logout successfull").success(res);
 };
 
 export const validateToken = async (req: Request, res: Response, next: NextFunction) => {
-  return new API_RESPONSE({ userId: req.userId }, "Token is valid").created(res);
+  return new API_RESPONSE({ userId: req.userId }, "Token is valid").success(res);
 };

@@ -1,21 +1,21 @@
 import { useForm } from "react-hook-form";
 import { api_client } from "../api-client";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { delay } from "../helpers/delay";
 import { AxiosError } from "axios";
-import { IRegisterResponse, IRegisterForm } from "../shared-types";
+import { IRegisterForm, ICommonResponse } from "../shared-types";
 
 const Register = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutation = useMutation(api_client.register, {
-    onSuccess: async (data: IRegisterResponse) => {
+    onSuccess: async (data: ICommonResponse) => {
+      queryClient.invalidateQueries("validate-token");
       toast.success(data.message);
-      await delay(1000);
       navigate("/");
     },
-    onError: (error: AxiosError<IRegisterResponse>) => {
+    onError: (error: AxiosError<ICommonResponse>) => {
       toast.error(error.response?.data.message);
     },
   });

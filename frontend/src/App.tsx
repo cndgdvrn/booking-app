@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Layout from "./layout/Layout";
 import Register from "./pages/Register";
 import { ToastContainer } from "react-toastify";
+import Signin from "./pages/Signin";
 
 function App() {
   return (
@@ -36,6 +37,14 @@ function App() {
             element={
               <Layout>
                 <Register />
+              </Layout>
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <Layout>
+                <Signin />
               </Layout>
             }
           />

@@ -13,17 +13,25 @@ declare global {
 export const verify_token = (req: Request, res: Response, next: NextFunction) => {
   const { auth_token } = req.cookies;
 
-  const decoded = jwt.verify(auth_token, process.env.JWT_SECRET_KEY as string);
+  try {
+    const decoded = jwt.verify(auth_token, process.env.JWT_SECRET_KEY as string);
 
-  if (!decoded) {
-    return new API_ERROR("Invalid Token", 401);
-  }
+    if (!decoded) {
+      console.log("burda patlıyo");
+      throw new API_ERROR("Invalid Token", 401);
+    }
 
-  if (typeof decoded !== "object" || !decoded.hasOwnProperty("userId")) {
+    if (typeof decoded !== "object" || !decoded.hasOwnProperty("userId")) {
+      console.log("burda patlıyo 2 ");
+      throw new API_ERROR("Invalid Token", 401);
+    }
+
+    req.userId = (decoded as JwtPayload).userId;
+
+    next();
+  } catch (e) {
+    res.clearCookie("auth_token");
     throw new API_ERROR("Invalid Token", 401);
+    
   }
-
-  req.userId = (decoded as JwtPayload).userId;
-
-  next();
 };
