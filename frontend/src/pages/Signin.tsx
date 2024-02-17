@@ -19,7 +19,7 @@ const Signin = () => {
 
   const mutation = useMutation(api_client.login, {
     onSuccess: async (data: ICommonResponse) => {
-      queryClient.invalidateQueries("validate-token")
+      await queryClient.invalidateQueries("validate-token")
       toast.success(data.message);
       navigate("/");
     },
@@ -28,10 +28,10 @@ const Signin = () => {
     },
   });
 
-  // if (context?.isLoggedIn === true) {
-  //   navigate("/");
-  //   return <></>;
-  // }
+  if (context?.isLoggedIn === true) {
+    navigate("/");
+    return <></>;
+  }
 
   const onSubmit = (data: ILoginForm) => {
     mutation.mutate(data);

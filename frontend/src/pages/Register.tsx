@@ -5,13 +5,15 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { IRegisterForm, ICommonResponse } from "../shared-types";
+import { useAppContext } from "../hooks/useAppContext";
 
 const Register = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const context = useAppContext();
   const mutation = useMutation(api_client.register, {
     onSuccess: async (data: ICommonResponse) => {
-      queryClient.invalidateQueries("validate-token");
+      await queryClient.invalidateQueries("validate-token");
       toast.success(data.message);
       navigate("/");
     },
@@ -30,6 +32,11 @@ const Register = () => {
   const onSubmit = async (data: IRegisterForm) => {
     mutation.mutate(data);
   };
+
+  if (context?.isLoggedIn) {
+    navigate("/");
+    return <></>;
+  }
 
   return (
     <div className="px-60 py-10">
@@ -116,7 +123,10 @@ const Register = () => {
 
         <div className="flex justify-between items-center">
           <p className="font-bold">
-            Already registered? <span className=" underline">Sign in here</span>
+            Already registered?{" "}
+            <span onClick={() => navigate("/signin")} className=" underline cursor-pointer">
+              Sign in here
+            </span>
           </p>
           <button
             className="p-4 text-lg w-max bg-green-500 text-slate-100 rounded-md opacity-90 hover:opacity-100"

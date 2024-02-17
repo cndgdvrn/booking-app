@@ -17,12 +17,14 @@ export const verify_token = (req: Request, res: Response, next: NextFunction) =>
     const decoded = jwt.verify(auth_token, process.env.JWT_SECRET_KEY as string);
 
     if (!decoded) {
-      console.log("burda patlıyo");
+      res.clearCookie("auth_token");
+
       throw new API_ERROR("Invalid Token", 401);
     }
 
     if (typeof decoded !== "object" || !decoded.hasOwnProperty("userId")) {
-      console.log("burda patlıyo 2 ");
+      res.clearCookie("auth_token");
+
       throw new API_ERROR("Invalid Token", 401);
     }
 
@@ -32,6 +34,5 @@ export const verify_token = (req: Request, res: Response, next: NextFunction) =>
   } catch (e) {
     res.clearCookie("auth_token");
     throw new API_ERROR("Invalid Token", 401);
-    
   }
 };

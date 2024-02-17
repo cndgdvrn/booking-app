@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ILoginForm, IRegisterForm } from "./shared-types";
 
-const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
 
 export const api_client = {
   register: async (formData: IRegisterForm) => {
