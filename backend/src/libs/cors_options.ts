@@ -1,4 +1,4 @@
-const whiteLists = [process.env.CLIENT_URL as string, "https://cndgdvrn-booking-app.onrender.com/"];
+const whiteLists = [process.env.CLIENT_URL as string, "https://cndgdvrn-booking-app.onrender.com"];
 
 export const corsOptionsDelegate = function (req: any, callback: any) {
   let corsOptions: any;
