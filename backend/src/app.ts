@@ -17,6 +17,12 @@ const app = express();
 
 app.use(express.static(path.join(__dirname,"../../frontend/dist")))
 
+app.use("/",(req,res,next)=>{
+  return res.json({
+    msg:"hello world"
+  })
+})
+
 app.use(morgan("tiny"));
 app.use(cors(corsOptionsDelegate));
 app.use(cookieParser());
