@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname,"../../frontend/dist")))
 
 app.use("/",(req,res,next)=>{
   return res.json({
-    msg:"hello world"
+    msg:"hello worlddd"
   })
 })
 
