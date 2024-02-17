@@ -8,8 +8,8 @@ import "./config/db";
 import router from "./routes";
 import { error_handler } from "./middlewares/error_handler";
 import morgan from "morgan";
-import { corsOptionsDelegate } from "./utils/cors_options";
 import path from "path";
+import { corsOptionsDelegate } from "./libs/cors_options";
 // console.log(process.env.NODE_ENV);
 
 
