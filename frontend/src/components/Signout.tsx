@@ -10,7 +10,8 @@ const Signout = () => {
       queryClient.invalidateQueries("validate-token");
       toast.success("Logged out");
     },
-    onError: () => {
+    onError: (error:any) => {
+      console.log(error);
       toast.error("Error occured - logging out");
     },
   });
