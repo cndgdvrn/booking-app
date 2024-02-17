@@ -5,8 +5,8 @@
   "main": "./src/app.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon",
-    "build": "npm install && npx tsc",
-    "start" : "node ./dist/app.js"
+    "build": "npm install && npm install typescript  && npx tsc",
+    "start": "node ./dist/app.js"
   },
   "author": "can",
   "license": "ISC",
