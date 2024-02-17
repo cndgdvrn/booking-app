@@ -17,11 +17,6 @@ const app = express();
 
 app.use(express.static(path.join(__dirname,"../../frontend/dist")))
 
-app.use("/",(req,res,next)=>{
-  return res.json({
-    msg:"hello worlddd"
-  })
-})
 
 app.use(morgan("tiny"));
 app.use(cors(corsOptionsDelegate));
