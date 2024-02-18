@@ -10,7 +10,7 @@ import { error_handler } from "./middlewares/error_handler";
 import morgan from "morgan";
 import path from "path";
 import { corsOptionsDelegate } from "./libs/cors_options";
-// console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV );
 
 
 const app = express();
