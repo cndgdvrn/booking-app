@@ -1,4 +1,4 @@
-const whiteLists = [process.env.CLIENT_URL as string, "https://booking-app-xi-mauve.vercel.app/"];
+const whiteLists = [process.env.CLIENT_URL as string, "https://booking-app-client-v1.vercel.app/"];
 
 export const corsOptionsDelegate = function (req: any, callback: any) {
   let corsOptions: any;
