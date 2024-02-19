@@ -8,6 +8,7 @@ class API_RESPONSE<T> {
     this.data = data;
     this.message = message;
   }
+  
 
   public success(res: Response) {
     res.status(200).json({
