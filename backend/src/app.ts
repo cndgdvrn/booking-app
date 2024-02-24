@@ -15,22 +15,18 @@ import { upload } from "./libs/multer";
 
 // console.log(process.env.NODE_ENV );
 
-
 const app = express();
 
 // app.use(express.static(path.join(__dirname,"../../frontend/dist")))
 
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 
-// app.post("/",upload.array("photo",6),(req,res,next)=>{
-//   console.log("filesdayız");
-//   console.log(req.files);
-// })
+
 
 app.use(morgan("tiny"));
 app.use(cors(corsOptionsDelegate));
@@ -38,12 +34,9 @@ app.use(cookieParser());
 app.use(express.json({ limit: "500kb" }));
 app.use(express.urlencoded({ extended: true }));
 
-
 app.use("/api/v1", router);
 
-
 app.use(error_handler);
-
 
 app.listen(process.env.PORT, () => {
   console.log("SERVER IS RUNNING");

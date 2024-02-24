@@ -76,7 +76,7 @@ const hotelSchema = Joi.object({
     "number.min": "Child count must be greater than or equal to 0",
     "number.integer": "Child count must be an integer",
   }),
-  facilities: [Joi.string().required()],
+  facilities: Joi.array().items(Joi.string()),
   pricePerNight: Joi.number().min(0).required().messages({
     "number.empty": "Price per night field is required",
     "number.min": "Price per night must be greater than or equal to 0",
@@ -91,9 +91,3 @@ const hotelSchema = Joi.object({
 });
 
 export { registerSchema, loginSchema, hotelSchema };
-// .messages({
-//   "array.base": "Facilities must be an array",
-//   "array.includesRequiredUnknowns": "Facilities array must hava at least one item",
-//   "array.includes": "Facilities array must only contain valid items",
-//   "string.empty": "Facilities array must not be empty",
-// })

@@ -36,3 +36,19 @@ export interface IBook {
   totalCost: number;
 }
 
+export interface IHotelQueryOptions {
+  name?: string;
+  city?: string;
+  country?: string;
+  type?: string;
+  adultCount?: number;
+  childCount?: number;
+  starRating?: number;
+  sortBy?: string;
+  sortOrder?: string;
+  page?: number;
+  limit?: number;
+  facilities? : string[]
+  minPrice? :number
+  maxPrice?:number
+}
