@@ -101,22 +101,21 @@ class API_HOTEL_QUERY_MANAGER {
 
     const numOfHotels = await Hotel.find(this.query).countDocuments();
 
-    const hotels = await Hotel.find(this.query)
-      .sort({ [sortBy]: sortOrder })
-      .limit(limit)
-      .skip((currentPage - 1) * limit);
-
-    const totalNumberOfHotels = Math.max(numOfHotels || 0, 0);
-    const totalPages = Math.ceil(totalNumberOfHotels / limit);
+    const totalPages = Math.ceil(numOfHotels / limit);
 
     if (totalPages < currentPage) {
       throw new API_ERROR("Total number of pages must be greater than the current page number.", 400);
     }
 
+    const hotels = await Hotel.find(this.query)
+      .sort({ [sortBy]: sortOrder })
+      .limit(limit)
+      .skip((currentPage - 1) * limit);
+
     return {
       totalPages,
       currentPage,
-      totalNumberOfHotels,
+      totalNumberOfHotels: numOfHotels,
       hotels,
     };
   }

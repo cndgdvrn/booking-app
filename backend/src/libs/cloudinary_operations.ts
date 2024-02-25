@@ -1,7 +1,8 @@
 import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
 import API_ERROR from "../utils/api_error";
+import { IImage } from "../types/types";
 
-export const uploadImages = async (images: Express.Multer.File[]): Promise<Array<UploadApiResponse>> => {
+export const uploadImages = (images: Express.Multer.File[]): Promise<Array<UploadApiResponse>> => {
   const uploadPromises = images.map((image) => {
     return new Promise<UploadApiResponse>((resolve, reject) => {
       const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -21,4 +22,21 @@ export const uploadImages = async (images: Express.Multer.File[]): Promise<Array
   });
 
   return Promise.all(uploadPromises);
+};
+
+export const deleteImages = (images: Array<string>) => {
+  const deletionPromises = images.map((image) => {
+    return new Promise((resolve, reject) => {
+      cloudinary.uploader.destroy(image, (err, result) => {
+        if (err) {
+          reject(err);
+        } else if (result) {
+          resolve(result);
+        } else {
+          reject(new API_ERROR("Cloudinary deletion process failed without an error", 400));
+        }
+      });
+    });
+  });
+  return Promise.all(deletionPromises);
 };

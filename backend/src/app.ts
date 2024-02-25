@@ -1,6 +1,6 @@
 import "express-async-errors";
 
-import express, { Request, Response } from "express";
+import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
@@ -24,7 +24,6 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
 
 
 

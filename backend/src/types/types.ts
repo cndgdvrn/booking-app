@@ -6,6 +6,11 @@ export interface IUser {
   lastName: string;
 }
 
+export interface IImage{
+  publicId:string,
+  imageUrl:string
+}
+
 export interface IHotel {
   _id: string;
   userId: string;
@@ -19,8 +24,8 @@ export interface IHotel {
   facilities: string[];
   pricePerNight: number;
   starRating: number;
-  imageUrls: string[];
   bookings: Array<IBook>;
+  imgs: Array<IImage>
 }
 
 export interface IBook {
