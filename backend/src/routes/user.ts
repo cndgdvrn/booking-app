@@ -1,20 +1,9 @@
-import express from "express"
-import { getMe } from "../controllers/user_controller"
-import { verify_token } from "../middlewares/verify_token"
+import express from "express";
+import { getMe } from "../controllers/user_controller";
+import { verify_token } from "../middlewares/verify_token";
 
-const router = express.Router() 
+const router = express.Router();
 
-router.get("/me",verify_token,getMe)
+router.get("/me", verify_token, getMe);
 
-
-
-
-
-
-
-
-
-
-
-
-export default router
+export default router;

@@ -50,6 +50,7 @@ const hotelSchema = new mongoose.Schema<IHotel>(
     },
     imgs: [
       {
+        _id:false,
         publicId: {
           type: String,
           required: true,

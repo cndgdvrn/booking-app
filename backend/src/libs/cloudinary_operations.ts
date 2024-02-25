@@ -24,6 +24,7 @@ export const uploadImages = (images: Express.Multer.File[]): Promise<Array<Uploa
   return Promise.all(uploadPromises);
 };
 
+//expecting an array containing publicId:string
 export const deleteImages = (images: Array<string>) => {
   const deletionPromises = images.map((image) => {
     return new Promise((resolve, reject) => {

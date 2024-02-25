@@ -90,4 +90,42 @@ const hotelSchema = Joi.object({
   }),
 });
 
-export { registerSchema, loginSchema, hotelSchema };
+
+const updateHotelSchema = Joi.object({
+  imagesToDelete: Joi.string(),
+  name: Joi.string().messages({
+    "string.empty": "Field of hotel name cannot be empty",
+  }),
+  city: Joi.string().messages({
+    "string.empty": "City field cannot be empty",
+  }),
+  country: Joi.string().messages({
+    "string.empty": "Country field cannot be empty",
+  }),
+  description: Joi.string().messages({
+    "string.empty": "Description field cannot be empty",
+  }),
+  type: Joi.string().messages({
+    "string.empty": "Type field cannot be empty",
+  }),
+  adultCount: Joi.number().integer().min(0).messages({
+    "number.min": "Adult count must be greater than or equal to 0",
+    "number.integer": "Adult count must be an integer",
+  }),
+  childCount: Joi.number().integer().min(0).messages({
+    "number.min": "Child count must be greater than or equal to 0",
+    "number.integer": "Child count must be an integer",
+  }),
+  facilities: Joi.array().items(Joi.string()),
+  pricePerNight: Joi.number().min(0).messages({
+    "number.min": "Price per night must be greater than or equal to 0",
+  }),
+  starRating: Joi.number().integer().min(1).max(5).messages({
+    "number.min": "Star rating must be greater than or equal to 1",
+    "number.max": "Star rating must be less than or equal to 5",
+    "number.integer": "Star rating must be an integer",
+    "number.base": "Star rating must be a number",
+  }),
+});
+
+export { registerSchema, loginSchema, hotelSchema,updateHotelSchema };

@@ -1,12 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { deleteImages, uploadImages } from "../libs/cloudinary_operations";
 import { IHotel, IImage } from "../types/types";
-import { hotelSchema } from "../libs/joiSchemas";
+import { hotelSchema, updateHotelSchema } from "../libs/joiSchemas";
 import API_ERROR from "../utils/api_error";
 import { UploadApiResponse } from "cloudinary";
 import API_RESPONSE from "../utils/api_response";
 import Hotel from "../models/hotel";
 import API_HOTEL_QUERY_MANAGER from "../utils/api_hotel_query_menager";
+import Booking from "../models/booking";
 
 export const createHotel = async (req: Request, res: Response) => {
   req.body.facilities = req.body.facilities.split(",");
@@ -78,10 +79,14 @@ export const updateHotel = async (req: Request, res: Response) => {
     req.body.facilities = req.body.facilities.split(",");
   }
   const updates: Partial<IHotel> = req.body;
-  
+  const { error } = updateHotelSchema.validate(updates);
+
+  if (error) {
+    throw new API_ERROR(error.details[0].message, 400);
+  }
+
   const newImages = req.files as Express.Multer.File[];
   let uploadedImages: UploadApiResponse[];
-  
 
   if (req.body.imagesToDelete) {
     req.body.imagesToDelete = req.body.imagesToDelete.split(",");
@@ -105,4 +110,31 @@ export const updateHotel = async (req: Request, res: Response) => {
   hotel.set(updates);
   await hotel.save();
   return new API_RESPONSE({ hotel }, "Hotel is updated").success(res);
+};
+
+export const deleteHotel = async (req: Request, res: Response) => {
+  const hotelId = req.params.hotelId as string;
+
+  const hotel = await Hotel.findById(hotelId);
+
+  if (!hotel) {
+    throw new API_ERROR("Hotel not found", 404);
+  }
+
+  if (hotel.userId !== req.userId) {
+    throw new API_ERROR("You are not authorized to delete this hotel", 403);
+  }
+
+  if (hotel.imgs.length > 0) {
+    const imagesToDelete = hotel.imgs.map((img) => img.publicId);
+    await deleteImages(imagesToDelete);
+  }
+
+  if (hotel.bookings.length > 0) {
+    await Booking.findOneAndUpdate({ hotelId: hotelId }, { $set: { status: "cancelled" } });
+  }
+
+  await Hotel.findByIdAndDelete(hotelId);
+
+  return new API_RESPONSE(hotel, "Hotel is deleted successfully").success(res);
 };

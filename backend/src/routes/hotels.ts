@@ -1,5 +1,5 @@
 import express from "express";
-import { createHotel, getHotel, searchHotel, updateHotel } from "../controllers/hotels_controller";
+import { createHotel, deleteHotel, getHotel, searchHotel, updateHotel } from "../controllers/hotels_controller";
 import { upload } from "../libs/multer";
 import { verify_token } from "../middlewares/verify_token";
 
@@ -15,6 +15,9 @@ router.get("/search", searchHotel);
 router.get("/:hotelId", getHotel);
 
 //Update a Hotel
-router.patch("/:hotelId", verify_token, upload.array("upload-images", 12), updateHotel);
+router.patch("/:hotelId", verify_token, upload.array("update-images", 12), updateHotel);
+
+//Delete a Hotel
+router.delete("/:hotelId", verify_token, deleteHotel);
 
 export default router;

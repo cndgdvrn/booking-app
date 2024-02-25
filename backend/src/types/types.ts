@@ -6,9 +6,9 @@ export interface IUser {
   lastName: string;
 }
 
-export interface IImage{
-  publicId:string,
-  imageUrl:string
+export interface IImage {
+  publicId: string;
+  imageUrl: string;
 }
 
 export interface IHotel {
@@ -25,7 +25,7 @@ export interface IHotel {
   pricePerNight: number;
   starRating: number;
   bookings: Array<IBook>;
-  imgs: Array<IImage>
+  imgs: Array<IImage>;
 }
 
 export interface IBook {
@@ -39,6 +39,7 @@ export interface IBook {
   checkIn: Date;
   checkOut: Date;
   totalCost: number;
+  status: "pending" | "approved" | "cancelled";
 }
 
 export interface IHotelQueryOptions {
@@ -53,7 +54,7 @@ export interface IHotelQueryOptions {
   sortOrder?: string;
   page?: number;
   limit?: number;
-  facilities? : string[]
-  minPrice? :number
-  maxPrice?:number
+  facilities?: string[];
+  minPrice?: number;
+  maxPrice?: number;
 }
