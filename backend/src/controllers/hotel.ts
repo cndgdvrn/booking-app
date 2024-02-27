@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { deleteImages, uploadImages } from "../libs/cloudinary_operations";
 import { IHotel, IImage } from "../types/types";
-import { hotelSchema, updateHotelSchema } from "../libs/joiSchemas";
+import { hotelSchema, updateHotelSchema } from "../libs/joi_schemas";
 import API_ERROR from "../utils/api_error";
 import { UploadApiResponse } from "cloudinary";
 import API_RESPONSE from "../utils/api_response";

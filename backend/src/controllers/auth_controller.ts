@@ -5,7 +5,7 @@ import API_ERROR from "../utils/api_error";
 import API_RESPONSE from "../utils/api_response";
 import { IUser } from "../types/types";
 import jwt from "jsonwebtoken";
-import { loginSchema, registerSchema } from "../libs/joiSchemas";
+import { loginSchema, registerSchema } from "../libs/joi_schemas";
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   const { error } = registerSchema.validate(req.body);

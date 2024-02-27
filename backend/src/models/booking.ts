@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import { IBook } from "../types/types";
+import { IBooking } from "../types/types";
 
-export const bookingSchema = new mongoose.Schema<IBook>(
+export const bookingSchema = new mongoose.Schema<IBooking>(
   {
     userId: {
       type: String,
@@ -44,6 +44,9 @@ export const bookingSchema = new mongoose.Schema<IBook>(
       enum: ["pending", "approved", "cancelled"],
       required: true,
     },
+    paymentIntentId: {
+      type: String,
+    }
   },
   {
     versionKey: false,

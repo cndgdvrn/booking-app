@@ -24,22 +24,8 @@ export interface IHotel {
   facilities: string[];
   pricePerNight: number;
   starRating: number;
-  bookings: Array<IBook>;
+  bookings: Array<IBooking>;
   imgs: Array<IImage>;
-}
-
-export interface IBook {
-  _id: string;
-  userId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  adultCount: number;
-  childCount: number;
-  checkIn: Date;
-  checkOut: Date;
-  totalCost: number;
-  status: "pending" | "approved" | "cancelled";
 }
 
 export interface IHotelQueryOptions {
@@ -58,3 +44,27 @@ export interface IHotelQueryOptions {
   minPrice?: number;
   maxPrice?: number;
 }
+
+
+export interface IBooking {
+  _id: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  adultCount: number;
+  childCount: number;
+  checkIn: Date;
+  checkOut: Date;
+  totalCost: number;
+  status: "pending" | "approved" | "cancelled";
+  paymentIntentId?: string;
+}
+
+export interface IBookingRequest {
+  checkIn: Date,
+  checkOut:Date,
+  adultCount:number,
+  childCount:number,
+}
+
