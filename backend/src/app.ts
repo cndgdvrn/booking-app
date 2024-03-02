@@ -1,5 +1,4 @@
 import "express-async-errors";
-
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -11,9 +10,8 @@ import morgan from "morgan";
 import path from "path";
 import { corsOptionsDelegate } from "./libs/cors_options";
 import { v2 as cloudinary } from "cloudinary";
-import { upload } from "./libs/multer";
+import ExpressMongoSanitize from "express-mongo-sanitize";
 
-// console.log(process.env.NODE_ENV );
 
 const app = express();
 
@@ -25,13 +23,19 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-
-
 app.use(morgan("tiny"));
 app.use(cors(corsOptionsDelegate));
 app.use(cookieParser());
 app.use(express.json({ limit: "500kb" }));
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  ExpressMongoSanitize({
+    allowDots: false,
+    replaceWith: "_",
+  })
+);
+
 
 app.use("/api/v1", router);
 

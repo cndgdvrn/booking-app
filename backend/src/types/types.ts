@@ -24,7 +24,7 @@ export interface IHotel {
   facilities: string[];
   pricePerNight: number;
   starRating: number;
-  bookings: Array<IBooking>;
+  bookings: Array<{ bookingId: string }>;
   imgs: Array<IImage>;
 }
 
@@ -45,7 +45,6 @@ export interface IHotelQueryOptions {
   maxPrice?: number;
 }
 
-
 export interface IBooking {
   _id: string;
   userId: string;
@@ -62,9 +61,8 @@ export interface IBooking {
 }
 
 export interface IBookingRequest {
-  checkIn: Date,
-  checkOut:Date,
-  adultCount:number,
-  childCount:number,
+  checkIn: Date;
+  checkOut: Date;
+  adultCount: number;
+  childCount: number;
 }
-

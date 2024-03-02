@@ -1,22 +1,24 @@
 import Joi, { LanguageMessages } from "joi";
 
-const messages: LanguageMessages = {
+const emailMessages: LanguageMessages = {
   "string.email": "Invalid email format",
   "string.empty": "Email is required",
   "string.custom": "Email must have at least 2 characters before the @ symbol.",
 };
 
+const emailCustomFunc = (value: string, helpers: any) => {
+  const atIndex = value.indexOf("@");
+  if (atIndex < 2) {
+    return helpers.error("string.custom");
+  }
+  return value;
+};
+
 const customEmailValidation = Joi.string()
   .email()
   .required()
-  .messages(messages)
-  .custom((value, helpers) => {
-    const atIndex = value.indexOf("@");
-    if (atIndex < 2) {
-      return helpers.error("string.custom");
-    }
-    return value;
-  }, "custom email validation");
+  .messages(emailMessages)
+  .custom(emailCustomFunc, "custom email validation");
 
 const registerSchema = Joi.object({
   email: customEmailValidation,
@@ -90,7 +92,6 @@ const hotelSchema = Joi.object({
   }),
 });
 
-
 const updateHotelSchema = Joi.object({
   imagesToDelete: Joi.string(),
   name: Joi.string().messages({
@@ -128,4 +129,23 @@ const updateHotelSchema = Joi.object({
   }),
 });
 
-export { registerSchema, loginSchema, hotelSchema,updateHotelSchema };
+const checkDateCustomFunc = (value: any, helpers: any) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const inputDate = new Date(value);
+  inputDate.setHours(0, 0, 0, 0);
+
+  if (inputDate < today) {
+    return helpers.message("Date cannot be in the past");
+  }
+  return value;
+};
+
+const createBookingSchema = Joi.object({
+  checkIn: Joi.date().custom(checkDateCustomFunc, "custom date validation").required(),
+  checkOut: Joi.date().custom(checkDateCustomFunc, "custom date validation").min(Joi.ref("checkIn")).required(),
+  adultCount: Joi.number().integer().min(1).required(),
+  childCount: Joi.number().integer().min(0).required(),
+});
+
+export { registerSchema, loginSchema, hotelSchema, updateHotelSchema, createBookingSchema };

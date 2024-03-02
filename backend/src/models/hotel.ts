@@ -1,6 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import { IHotel } from "../types/types";
-import { bookingSchema } from "./booking";
 
 const hotelSchema = new mongoose.Schema<IHotel>(
   {
@@ -50,7 +49,7 @@ const hotelSchema = new mongoose.Schema<IHotel>(
     },
     imgs: [
       {
-        _id:false,
+        _id: false,
         publicId: {
           type: String,
           required: true,
@@ -61,7 +60,11 @@ const hotelSchema = new mongoose.Schema<IHotel>(
         },
       },
     ],
-    bookings: [bookingSchema],
+    bookings: [
+      {
+        type:Object
+      },
+    ],
   },
   {
     versionKey: false,

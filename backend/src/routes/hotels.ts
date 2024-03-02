@@ -1,5 +1,5 @@
 import express from "express";
-import { createHotel, deleteHotel, getHotel, searchHotel, updateHotel } from "../controllers/hotel";
+import { createHotel, deleteHotel, getHotel, searchHotel, updateHotel } from "../controllers/hotel_controller";
 import { upload } from "../libs/multer";
 import { verify_token } from "../middlewares/verify_token";
 

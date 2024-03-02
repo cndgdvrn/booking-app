@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/:hotelId", verify_token, createBooking);
 
 //stripe web hook
-router.post("/webhooks/stripe",express.raw({type:"application/json"}),stripeWebHook)
+router.post("/webhooks/stripe",verify_token,express.raw({type:"application/json"}),stripeWebHook)
 
 
 export default router;
